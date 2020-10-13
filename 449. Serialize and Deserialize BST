@@ -1,0 +1,34 @@
+class Codec {
+    // Encodes a tree to a single string.
+    func serialize(_ root: TreeNode?) -> String {
+        let result = encode(root)
+       // print(result)
+        return result.joined(separator: " ")
+    }
+    
+    func encode(_ root: TreeNode?)->[String]{
+        guard let root = root else{ return []}
+        return encode(root.left) + encode(root.right) + [String(root.val)]        
+    }
+    
+    // Decodes your encoded data to tree.
+    func deserialize(_ data: String) -> TreeNode? {
+        var arr = data.components(separatedBy: " ").compactMap{Int($0)}
+        print(arr)
+        if arr.count == 0 { return nil}
+        return decode(&arr,Int.min, Int.max)
+    }
+    
+    func decode(_ arr: inout [Int], _ left: Int, _ right: Int)-> TreeNode?{ // [1,2]
+        if arr.count == 0 {return nil}
+        let lastItem = arr.last!
+        if lastItem < left || lastItem > right {
+            return nil
+        }
+        let val = arr.removeLast() // 1,3,2 -> [1]
+        let node: TreeNode? = TreeNode(val)
+        node?.right = decode(&arr,val,right) // [1],3,max
+        node?.left = decode(&arr,left,val) // [1], min, 3
+        return node
+    }
+}
