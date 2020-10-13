@@ -1,0 +1,19 @@
+class Solution {
+    func reverseParentheses(_ s: String) -> String {     
+        var str = ""
+        var stack = [String]()
+        
+        for ch in s{  
+            if ch == "(" {
+                stack.append(str)
+                str = ""
+            }
+            else if ch == ")"{
+                str = stack.removeLast() + String(Array(str).reversed())    
+            }else{
+                str += String(ch)
+            }
+        }
+        return str
+    }
+}
