@@ -1,0 +1,28 @@
+class Solution {
+    func minRemoveToMakeValid(_ s: String) -> String {
+        var stack = [Int]() 
+        var invalidPos = [Int]()
+        for (i,ch) in s.enumerated(){
+            if ch == "(" {
+                stack.append(i)
+                continue
+            }
+            if ch == ")" {
+                if stack.count == 0{
+                    invalidPos.append(i)
+                }
+                else{
+                    stack.removeLast()
+                }
+            }
+        }
+        invalidPos += stack
+        invalidPos = Array(invalidPos.sorted().reversed())
+        var arr = Array(s)
+        
+        for i in invalidPos{
+            arr.remove(at:i)
+        }
+        return String(arr)
+    }
+}
