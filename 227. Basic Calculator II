@@ -1,0 +1,27 @@
+class Solution {
+    func calculate(_ s: String) -> Int {
+        
+        var op = "+"
+        var num = 0
+        var stack = [Int]()
+        for ch in s+"+" where ch != " "{
+            if ch.isNumber{
+                num = num*10 + ch.wholeNumberValue!
+            }else{
+                if op == "+"{
+                    stack.append(num)
+                }else if op == "-"{
+                    stack.append(-num)
+                }
+                else if op == "*"{
+                    stack.append(num*stack.removeLast())
+                }else if op == "/"{
+                    stack.append(stack.removeLast()/num)
+                }   
+                op = String(ch)
+                num = 0
+            }
+        }
+        return stack.reduce(0,+)
+    }
+}
