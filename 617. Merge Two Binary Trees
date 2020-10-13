@@ -1,0 +1,22 @@
+class Solution {
+    func mergeTrees(_ t1: TreeNode?, _ t2: TreeNode?) -> TreeNode? {
+        
+        if t1 == nil && t2 == nil{
+            return nil
+        }
+        var val1 = 0
+        var val2 = 0
+        
+        if let _t1 = t1{
+            val1 = _t1.val
+        }
+        if let _t2 = t2{
+            val2 = _t2.val
+        }
+        var rootNode: TreeNode? = TreeNode(val1 + val2)
+        rootNode?.left = mergeTrees(t1?.left,t2?.left)
+        rootNode?.right = mergeTrees(t1?.right,t2?.right)
+        
+        return rootNode
+    }
+}
