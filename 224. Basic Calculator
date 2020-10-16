@@ -1,0 +1,53 @@
+class Solution {
+    func calculate(_ s: String) -> Int {
+        return solveParentheses(s)
+    }
+    
+     func solveParentheses(_ s: String) -> Int {     
+        var str = ""
+        var stack = [String]()
+        
+        for ch in s{  
+            if ch == "(" {
+                stack.append(str)
+                str = ""
+            }
+            else if ch == ")"{
+                str = stack.removeLast() + String(solve(str))    
+            }else{
+                str += String(ch)
+            }
+        }
+        return solve(str)
+    }
+    
+    func solve(_ s: String) -> Int {
+        var op = "+"
+        var num = 0
+        var stack = [Int]()
+        var changeSign = false
+        for ch in s+"+" where ch != " "{
+            if ch.isNumber{
+                num = num*10 + ch.wholeNumberValue!
+                changeSign = false
+            }else{
+                if op == "+"{
+                    stack.append(num)
+                }else if op == "-"{
+                    stack.append(-num)
+                }
+                if changeSign {
+                    op = ch == "+" ? "-" : "+"
+                }else{
+                    op = String(ch)
+                }
+                num = 0
+                
+                if ch == "-"{
+                    changeSign = true
+                }
+            }
+        }
+        return stack.reduce(0,+)
+    }
+}
