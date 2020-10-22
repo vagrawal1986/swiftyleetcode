@@ -1,0 +1,20 @@
+class Solution {
+    func moveZeroes(_ nums: inout [Int]) {
+        
+        var left = 0
+        var right = 0
+        
+        while right < nums.count{
+            if nums[right] != 0{
+                nums[left] = nums[right]
+                left += 1
+            }
+            right += 1
+        }
+        
+        while left < nums.count{
+            nums[left] = 0
+            left += 1
+        }
+    }
+}
