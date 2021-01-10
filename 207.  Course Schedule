@@ -1,0 +1,38 @@
+class Solution {
+    func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
+        
+        var dict = [Int:[Int]]()
+        var altreadyChecked = Array(repeating:false,count:numCourses)
+        for arr in prerequisites {
+            dict[arr[0]] = dict[arr[0],default:[]] + [arr[1]]
+        }
+        
+        for i in dict.keys{
+            var visited = Array(repeating:false,count: numCourses)
+            // check if cycle exists
+            if cycleExists(i,visited,dict, &altreadyChecked){
+                return false
+            }
+        }
+        return true
+    }
+    
+    func cycleExists(_ num: Int, _ visited: [Bool], _ dict: [Int:[Int]], _ altreadyChecked: inout [Bool]) -> Bool {
+        if altreadyChecked[num]{
+            return false
+        }
+        var visited = visited
+        if visited[num] {
+            return true
+        }
+        visited[num] = true
+        
+        for child in dict[num,default:[]]{
+            if cycleExists(child,visited,dict,&altreadyChecked){
+                return true
+            }
+        }
+        altreadyChecked[num] = true
+        return false
+    }
+}
